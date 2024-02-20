@@ -16,8 +16,11 @@ df.replace('?', pd.NA, inplace=True)
 # Convert 'bare_nuclei' to numeric (as it might be stored as strings)
 df['bare_nuclei'] = pd.to_numeric(df['bare_nuclei'], errors='coerce')
 
-# Fill missing values with the mean of the respective column
-df.fillna(df.mode().iloc[0], inplace=True)
+# Exclude the 'id' column from the processing
+df.drop('id', axis=1, inplace=True)
+
+# Fill missing values with the mode of the respective column as integers
+df = df.apply(lambda x: x.fillna(x.mode()[0]).astype(int), axis=0)
 
 # Write the preprocessed dataset to a new CSV file
 df.to_csv("preprocess.csv", index=False, header=False)
