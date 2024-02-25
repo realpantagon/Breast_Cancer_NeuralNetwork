@@ -1,4 +1,5 @@
 import pandas as pd
+from sklearn.model_selection import train_test_split
 
 # Load the dataset
 column_names = [
@@ -25,4 +26,20 @@ df = df.apply(lambda x: x.fillna(x.mode()[0]).astype(int), axis=0)
 # Write the preprocessed dataset to a new CSV file
 df.to_csv("preprocess.csv", index=False, header=False)
 
+# Separate features and target variable
+X = df.drop('class', axis=1)
+y = df['class']
+
+# Split the dataset into training (70%) and test (30%) sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+
+# Concatenate features and target variable for both training and test sets
+train_df = pd.concat([X_train, y_train], axis=1)
+test_df = pd.concat([X_test, y_test], axis=1)
+
+# Save training and test datasets to new CSV files
+train_df.to_csv("train_dataset.csv", index=False, header=False)
+test_df.to_csv("test_dataset.csv", index=False, header=False)
+
 print("Preprocessing completed. New dataset saved to preprocess.csv")
+print("Training and test datasets created and saved.")
