@@ -37,14 +37,14 @@ def traindataset(X, Weight10, Weight11, Weight12, Weight13, Weight14, desire_out
     error14 = desire_output[1] - y14
 
     print("\nError of node 13 is: %8.3f, Error of node 14 is: %8.3f" % (error13, error14))
-    avg_error = (error13 + error14) / 2
+    error = (error13 + error14) / 2
 
-    if avg_error !=0 :
+    if error !=0 :
         # backpropagation
         print("\n-----backward pass-----> ")
 
         # node14
-        grad14 = gradOut(error14, y14)
+        grad14 = gradOut(error, y14)
         delta_wieght_w10_14 = deltaw(learning_rate, grad14, y10)
         delta_wieght_w11_14 = deltaw(learning_rate, grad14, y11)
         delta_wieght_w12_14 = deltaw(learning_rate, grad14, y12)
@@ -58,7 +58,7 @@ def traindataset(X, Weight10, Weight11, Weight12, Weight13, Weight14, desire_out
         print("\nNew weights for node 14: weight10_14: %8.3f, weight11_14: %8.3f, weight12_14: %8.3f, Bias: %8.3f"% (Weight14[0], Weight14[1], Weight14[2], Weight14[3]))
 
         # node13
-        grad13 = gradOut(error13, y13)
+        grad13 = gradOut(error, y13)
         delta_wieght_w10_13 = deltaw(learning_rate, grad13, y10)
         delta_wieght_w11_13 = deltaw(learning_rate, grad13, y11)
         delta_wieght_w12_13 = deltaw(learning_rate, grad13, y12)
@@ -189,7 +189,7 @@ def traindataset(X, Weight10, Weight11, Weight12, Weight13, Weight14, desire_out
                 Weight10[9],
             )
         )
-    return avg_error, Weight10, Weight11, Weight12, Weight13, Weight14
+    return error, Weight10, Weight11, Weight12, Weight13, Weight14
 
 
 def training_path(round_count):
@@ -209,10 +209,10 @@ def training_path(round_count):
             data = dataset.iloc[i, 0:10].tolist()
             desire_output = [1, 0] if data[9] == 2 else [0, 1]
             data[9] = 1
-            avg_error, Weight10, Weight11, Weight12, Weight13, Weight14 = traindataset(
+            error, Weight10, Weight11, Weight12, Weight13, Weight14 = traindataset(
                 data, Weight10, Weight11, Weight12, Weight13, Weight14, desire_output, learning_rate
             )
-            avg_error += avg_error
+            avg_error += error
         avg_error /= len(dataset)
 
     print("\n-------------------End of Training------------------->")

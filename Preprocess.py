@@ -31,7 +31,7 @@ X = df.drop('class', axis=1)
 y = df['class']
 
 # Split the dataset into training (70%) and test (30%) sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # Concatenate features and target variable for both training and test sets
 train_df = pd.concat([X_train, y_train], axis=1)
