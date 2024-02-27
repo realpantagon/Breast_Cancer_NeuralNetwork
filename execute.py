@@ -33,8 +33,9 @@ def traindataset(X, Weight10, Weight11, Weight12, Weight13, Weight14, desire_out
     print("\nSum(V) of node 14 is: %8.3f, Y from node 14 is: %8.3f" % (out14, y14))
 
     # Error
-    error13 = desire_output[0] - y13
-    error14 = desire_output[1] - y14
+    error13 = desire_output - y13
+    error14 = desire_output - y14
+
 
     print("\nError of node 13 is: %8.3f, Error of node 14 is: %8.3f" % (error13, error14))
     error = (error13 + error14) / 2
@@ -194,24 +195,24 @@ def traindataset(X, Weight10, Weight11, Weight12, Weight13, Weight14, desire_out
 
 def training_path(round_count):
     avg_error = 0
-    learning_rate = 0.9
+    learning_rate = -0.9
     Weight10 = [random.uniform(-1, 1) for i in range(10)]
     Weight11 = [random.uniform(-1, 1) for i in range(10)]
     Weight12 = [random.uniform(-1, 1) for i in range(10)]
     Weight13 = [random.uniform(-1, 1) for i in range(4)]
     Weight14 = [random.uniform(-1, 1) for i in range(4)]
 
-    dataset = pd.read_csv("train_dataset.csv")
+    dataset = pd.read_csv('train_dataset.csv')
+    # result = pd.read_csv()
     for j in range(round_count):
         avg_error = 0
         print(f"Round {j + 1}")
         for i in range(len(dataset)):
             data = dataset.iloc[i, 0:10].tolist()
-            desire_output = [1, 0] if data[9] == 2 else [0, 1]
+            desire_output = 1 if data[9] == 2 else 0
             data[9] = 1
             error, Weight10, Weight11, Weight12, Weight13, Weight14 = traindataset(
-                data, Weight10, Weight11, Weight12, Weight13, Weight14, desire_output, learning_rate
-            )
+                data, Weight10, Weight11, Weight12, Weight13, Weight14, desire_output, learning_rate)
             avg_error += error
         avg_error /= len(dataset)
 
