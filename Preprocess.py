@@ -37,9 +37,18 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 train_df = pd.concat([X_train, y_train], axis=1)
 test_df = pd.concat([X_test, y_test], axis=1)
 
-# Save training and test datasets to new CSV files
-train_df.to_csv("train_dataset.csv", index=False, header=False)
-test_df.to_csv("test_dataset.csv", index=False, header=False)
+# Separate and save the train_dataset_node and train_dataset_result
+train_df_node = train_df.drop('class', axis=1)
+train_df_result = train_df['class']
+train_df_node.to_csv("train_dataset_node.csv", index=False, header=False)
+train_df_result.to_csv("train_dataset_result.csv", index=False, header=False)
+
+# Separate and save the test_dataset_node and test_dataset_result
+test_df_node = test_df.drop('class', axis=1)
+test_df_result = test_df['class']
+test_df_node.to_csv("test_dataset_node.csv", index=False, header=False)
+test_df_result.to_csv("test_dataset_result.csv", index=False, header=False)
 
 print("Preprocessing completed. New dataset saved to preprocess.csv")
-print("Training and test datasets created and saved.")
+print("Training dataset nodes and results created and saved.")
+print("Test dataset nodes and results created and saved.")
